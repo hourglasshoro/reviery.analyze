@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package reviery.analyze;
+
+option go_package = "reviery/src/analyze/analyze";
+
+service Analyze {
+  rpc Sentiment(SentimentMessage)returns(SentimentResponse){}
+}
+
+message SentimentMessage{
+  string opinion = 1;
+}
+
+message SentimentResponse{
+  float score = 1;
+}
