@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+
+  analyze:
+    build:
+      context: .
+      dockerfile: docker/analyze/Dockerfile
+      target: build
+    volumes:
+      - ./src/analyze:/app/src/analyze
+    ports:
+      - 8001:8001
+    command: python src/analyze/main.py
+    depends_on:
+      - proto
+    tty: true
+
+  proto:
+    build:
+      context: .
+      dockerfile: docker/proto/Dockerfile
+    command: ./protoc.sh
+    volumes:
+      - ./proto:/proto
+      - ./client:/output/client/reviery/src/analyze
+      - ./src/analyze/presentation/grpc:/output/server/protos
+    working_dir: /proto
